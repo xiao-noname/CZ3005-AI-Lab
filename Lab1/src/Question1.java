@@ -56,6 +56,4 @@ public class Question1 {
     }
     return false;
     }
-    }
-
 }
