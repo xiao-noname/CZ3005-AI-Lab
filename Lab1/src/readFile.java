@@ -37,7 +37,7 @@ public class readFile {
             System.out.println(b);
             System.out.println(energyObject.get(b));   //read in the energy file to get the cost
             System.out.println(weightObject.get(b));
-            double weight = (double) weightObject.get(b);
+            double weight = (double) weightObject.get(b);   //issue some not double
             Long energy = (Long) energyObject.get(b);
             Node source = Nodelist.get(Integer.valueOf(b.split(",")[0]));
             Node destination = new Node(Integer.valueOf(b.split(",")[1]),weight,energy);
