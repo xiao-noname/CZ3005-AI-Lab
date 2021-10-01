@@ -11,7 +11,7 @@ visited = []
 queue = []
 predecessor = {}
 
-def bfs(visited, graph,startnode, endnode):
+def bfs(startnode, endnode):
     visited.append(startnode)
     queue.append(startnode)
     predecessor[startnode]= [0,0]
@@ -40,10 +40,18 @@ def printshortestpath(endnode):
         totaldist += predecessor[movement][1]
         movement = predecessor[movement][0]
 
-    print(shortestpath)         #change the way the print for project
-    print(totaldist)
+    checkDist = 0
+    energyCost = 0;
+    print("Shortest Path: \nS -> ", end = '')
+    for i in range(len(shortestpath)-1):
+        print(shortestpath[i]+" -> ", end = '')
+        a = shortestpath[i]
+        b = shortestpath[i+1]
+        temp1 = str(b)+','+str(a)
+        checkDist += dist[temp1]
+        energyCost += energycost[temp1]
+    print("T")
+    print("\nShortest Distance: %.2f" % round(totaldist, 2))
+    print("\nTotal Energy Cost: "+str(energyCost))
 
 
-print("Following is the breadth-first search")
-bfs(visited, graph, '1','50')
-printshortestpath('50')

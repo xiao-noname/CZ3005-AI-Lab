@@ -59,5 +59,5 @@ def printshortestpath(endnode):
     print(len(shortestpath))
     print(predecessor['50'])
 
-ucs('1','50')
-printshortestpath('50')
+# ucs('1','50')
+# printshortestpath('50')

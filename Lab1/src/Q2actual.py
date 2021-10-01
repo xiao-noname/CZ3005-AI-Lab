@@ -27,8 +27,8 @@ def ucs (startnode,endnode):
             visited.add(current)
             predecessor[current] = predecessornode
             if current == endnode:
-                print(traveldist)       #output nicely
-                print(energy)
+                # print(traveldist)       #output nicely
+                # print(energy)
                 return
             for neighbours in graph[current]:
                 temp = str(neighbours)+','+str(current)
@@ -43,14 +43,23 @@ def printshortestpath(startnode,endnode):
     shortestpath = []
     shortestpath.append(endnode)
     movement = endnode
-    print(predecessor['50'])
     while (predecessor[movement] != startnode):
         shortestpath.insert(0, predecessor[movement])
         movement = predecessor[movement]
     shortestpath.insert(0,startnode)
-    print(shortestpath)
-    print(len(shortestpath))
-    print(predecessor['50'])
 
-ucs('1','50')
-printshortestpath('1','50')
+    totalDist = 0
+    energyCost = 0;
+    print("Shortest Path: \nS -> ", end = '')
+    for i in range(len(shortestpath)-1):
+        print(shortestpath[i]+" -> ", end = '')
+        a = shortestpath[i]
+        b = shortestpath[i+1]
+        temp1 = str(b)+','+str(a)
+        totalDist += dist[temp1]
+        energyCost += energycost[temp1]
+    print("T")
+    print("\nShortest Distance: %.2f" % round(totalDist, 2))
+    print("\nTotal Energy Cost: "+str(energyCost))
+    
+
