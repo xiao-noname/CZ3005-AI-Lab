@@ -1,26 +1,25 @@
 import json
 import math
-import timeit
 from queue import PriorityQueue
 
-start = timeit.default_timer()
-f = open('G.json',)
-f1 = open('Cost.json')
-f2 = open('Dist.json')
-f3 = open('Coord.json')
+f = open('Lab1\G.json',)
+f1 = open('Lab1\Cost.json')
+f2 = open('Lab1\Dist.json')
+f3 = open('Lab1\Coord.json')
 graph = json.load(f)
 energycost = json.load(f1)
 dist = json.load(f2)
 coord = json.load(f3)
 predecessor = {}
 
-def linear_heuristic(currentNode, endNode,distNext): #euclidean_distance
-  starting = coord[currentNode]
-  ending = coord[endNode]
-  euclidean_distance = math.sqrt((starting[0] - ending[0])**2 + (starting[1] - ending[1])**2)
-  return euclidean_distance #havent normalise yet
+def linear_heuristic(currentNode, endNode):
+    starting_x = coord[currentNode][0]
+    starting_y = coord[currentNode][1]
+    ending_x = coord[endNode][0]
+    ending_y = coord[endNode][1]
+    euclidean_distance = math.sqrt((starting_x - ending_x)**2 + (starting_y - ending_y)**2)
+    return euclidean_distance
 
-#not working likely because of stackoverflow
 def updatedAStar (startnode,endnode):
     visited = set()
     q = PriorityQueue()
@@ -29,26 +28,27 @@ def updatedAStar (startnode,endnode):
         temp1 = str(neighbour)+','+str(startnode)
         totalenergy = energycost[temp1]
         distNext = dist[temp1]
-        heurDist = linear_heuristic(neighbour,endnode, distNext)
-        totaldist = distNext +heurDist
-        q.put((totaldist,(startnode,neighbour),totalenergy,heurDist))
+        heurDist = linear_heuristic(neighbour,endnode)
+        functionDist = distNext + heurDist
+        q.put((functionDist, (startnode,neighbour), totalenergy, distNext))
     while q:
-        traveldist,(predecessornode,current),energy,hdist = q.get()
+        functionDist, (predecessornode,current), energy, traveldist = q.get()
         if current not in visited:
             visited.add(current)
             predecessor[current] = predecessornode
             if current == endnode:
+                printshortestpath(startnode,endnode)
                 return
             for neighbours in graph[current]:
                 temp = str(neighbours)+','+str(current)
                 totalenergy = energy + energycost[temp]
                 if neighbours not in visited and totalenergy<=287932:
                     distNext = dist[temp]
-                    heurDist = linear_heuristic(neighbours,endnode, distNext)
-                    totaldist = distNext+traveldist+heurDist-hdist
-                    predecessor[neighbours] = current
-                    q.put((totaldist,(current,neighbours),totalenergy,heurDist))
-                    
+                    heurDist = linear_heuristic(neighbours,endnode)
+                    fdist = traveldist + distNext + heurDist
+                    totaltravel = traveldist + distNext
+                    # predecessor[neighbours] = current
+                    q.put((fdist, (current,neighbours), totalenergy, totaltravel))   
 
 def printshortestpath(startnode,endnode):
     shortestpath = []
@@ -58,16 +58,18 @@ def printshortestpath(startnode,endnode):
         shortestpath.insert(0, predecessor[movement])
         movement = predecessor[movement]
     shortestpath.insert(0,startnode)
-    #print("This is the length of the shortest path " +str(len(shortestpath)))
-    checkDist = 0
+    totalDist = 0
+    energyCost = 0
+    print("Shortest Path: \nS -> ", end = '')
     for i in range(len(shortestpath)-1):
-      a = shortestpath[i]
-      b = shortestpath[i+1]
-      temp1 = str(b)+','+str(a)
-      checkDist+= dist[temp1]
-    #print("The total distance of this function is: "+str(checkDist))
+        print(shortestpath[i]+" -> ", end = '')
+        a = shortestpath[i]
+        b = shortestpath[i+1]
+        temp1 = str(b)+','+str(a)
+        totalDist += dist[temp1]
+        energyCost += energycost[temp1]
+    print(endnode+" -> T")
+    print("\nShortest Distance: %.2f" % round(totalDist, 2))
+    print("\nTotal Energy Cost: "+str(energyCost))
 
-updatedAStar('1','50')
-printshortestpath('1','50')
-stop = timeit.default_timer()
-#print('Time: ', stop - start)
+# updatedAStar('1','50')

@@ -10,7 +10,7 @@ dist = json.load(f2)
 
 predecessor = {}
 
-def ucs (startnode,endnode):
+def ucs(startnode,endnode):
     visited = set()
     q = PriorityQueue()
     predecessor[startnode] = 0
@@ -27,8 +27,7 @@ def ucs (startnode,endnode):
             visited.add(current)
             predecessor[current] = predecessornode
             if current == endnode:
-                # print(traveldist)       #output nicely
-                # print(energy)
+                printshortestpath(startnode,endnode)
                 return
             for neighbours in graph[current]:
                 temp = str(neighbours)+','+str(current)
@@ -58,8 +57,9 @@ def printshortestpath(startnode,endnode):
         temp1 = str(b)+','+str(a)
         totalDist += dist[temp1]
         energyCost += energycost[temp1]
-    print("T")
+    print(endnode+" -> T")
     print("\nShortest Distance: %.2f" % round(totalDist, 2))
     print("\nTotal Energy Cost: "+str(energyCost))
-    
+
+# ucs('1','50')
 

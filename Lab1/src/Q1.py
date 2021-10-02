@@ -27,6 +27,7 @@ def bfs(startnode, endnode):
                 tempdist = dist[temp]
                 predecessor[neighbour] = [m,tempdist]
                 if neighbour == endnode:
+                    printshortestpath(endnode)
                     return
 
 
@@ -50,8 +51,8 @@ def printshortestpath(endnode):
         temp1 = str(b)+','+str(a)
         checkDist += dist[temp1]
         energyCost += energycost[temp1]
-    print("T")
+    print(endnode+" -> T")
     print("\nShortest Distance: %.2f" % round(totaldist, 2))
     print("\nTotal Energy Cost: "+str(energyCost))
 
-
+# bfs('1','50')
