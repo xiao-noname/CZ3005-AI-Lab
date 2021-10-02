@@ -29,7 +29,7 @@ def updatedAStar (startnode,endnode):
         temp1 = str(neighbour)+','+str(startnode)
         totalenergy = energycost[temp1]
         distNext = dist[temp1]
-        heurDist = linear_heuristic(startnode,endnode, distNext)
+        heurDist = linear_heuristic(neighbour,endnode, distNext)
         totaldist = distNext +heurDist
         q.put((totaldist,(startnode,neighbour),totalenergy,heurDist))
     while q:
@@ -44,7 +44,7 @@ def updatedAStar (startnode,endnode):
                 totalenergy = energy + energycost[temp]
                 if neighbours not in visited and totalenergy<=287932:
                     distNext = dist[temp]
-                    heurDist = linear_heuristic(startnode,endnode, distNext)
+                    heurDist = linear_heuristic(neighbours,endnode, distNext)
                     totaldist = distNext+traveldist+heurDist-hdist
                     predecessor[neighbours] = current
                     q.put((totaldist,(current,neighbours),totalenergy,heurDist))
