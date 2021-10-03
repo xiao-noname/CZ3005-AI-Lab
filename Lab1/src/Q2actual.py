@@ -11,7 +11,7 @@ dist = json.load(f2)
 
 predecessor = {}
 
-start = timeit.default_timer()
+start_ucs = timeit.default_timer()
 
 def ucs(startnode,endnode):
     visited = set()
@@ -30,7 +30,9 @@ def ucs(startnode,endnode):
             visited.add(current)
             predecessor[current] = predecessornode
             if current == endnode:
+                stop_ucs = timeit.default_timer()
                 printshortestpath(startnode,endnode)
+                print('Time: ', stop_ucs - start_ucs)
                 return
             for neighbours in graph[current]:
                 temp = str(neighbours)+','+str(current)
@@ -64,7 +66,6 @@ def printshortestpath(startnode,endnode):
     print("\nShortest Distance: %.2f" % round(totalDist, 2))
     print("Total Energy Cost: "+str(energyCost))
 
-ucs('1','50')
-stop = timeit.default_timer()
-print('Time: ', stop - start)
+# ucs('1','50')
+
 

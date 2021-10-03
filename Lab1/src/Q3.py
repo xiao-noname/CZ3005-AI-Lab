@@ -23,7 +23,7 @@ def linear_heuristic(currentNode, endNode):
     euclidean_distance = math.sqrt((starting_x - ending_x)**2 + (starting_y - ending_y)**2)
     return euclidean_distance*0.5
 
-start = timeit.default_timer()
+start_astar = timeit.default_timer()
 
 def updatedAStar (startnode,endnode):
     visited = set()
@@ -42,7 +42,9 @@ def updatedAStar (startnode,endnode):
             visited.add(current)
             predecessor[current] = predecessornode
             if current == endnode:
+                stop_astar = timeit.default_timer()
                 printshortestpath(startnode,endnode)
+                print('Time: ', stop_astar - start_astar)
                 return
             for neighbours in graph[current]:
                 temp = str(neighbours)+','+str(current)
@@ -77,6 +79,4 @@ def printshortestpath(startnode,endnode):
     print("\nShortest Distance: %.2f" % round(totalDist, 2))
     print("Total Energy Cost: "+str(energyCost))
 
-updatedAStar('1','50')
-stop = timeit.default_timer()
-print('Time: ', stop - start)
+# updatedAStar('1','50')
