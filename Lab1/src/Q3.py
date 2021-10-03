@@ -21,11 +21,10 @@ def linear_heuristic(currentNode, endNode):
     ending_x = coord[endNode][0]
     ending_y = coord[endNode][1]
     euclidean_distance = math.sqrt((starting_x - ending_x)**2 + (starting_y - ending_y)**2)
-    return euclidean_distance*0.5
-
-start_astar = timeit.default_timer()
+    return euclidean_distance
 
 def updatedAStar (startnode,endnode):
+    start_astar = timeit.default_timer()
     visited = set()
     q = PriorityQueue()
     predecessor[startnode] = 0

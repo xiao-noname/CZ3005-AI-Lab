@@ -1,4 +1,5 @@
 import json
+import timeit
 
 f = open('Lab1\G.json',)
 f1 = open('Lab1\Cost.json')
@@ -12,12 +13,12 @@ queue = []
 predecessor = {}
 
 def bfs(startnode, endnode):
+    start_bfs = timeit.default_timer()
     visited.append(startnode)
     queue.append(startnode)
     predecessor[startnode]= [0,0]
     while queue:
         m = queue.pop(0)
-        #print(m, end = " ")
         for neighbour in graph[m]:
             if neighbour not in visited:
                 visited.append(neighbour)
@@ -27,7 +28,9 @@ def bfs(startnode, endnode):
                 tempdist = dist[temp]
                 predecessor[neighbour] = [m,tempdist]
                 if neighbour == endnode:
+                    stop_bfs = timeit.default_timer()
                     printshortestpath(endnode)
+                    print('Time: ', stop_bfs - start_bfs)
                     return
 
 
