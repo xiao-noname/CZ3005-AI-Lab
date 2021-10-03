@@ -1,4 +1,5 @@
 import json
+import timeit
 from queue import PriorityQueue
 
 f = open('Lab1\G.json',)
@@ -9,6 +10,8 @@ energycost = json.load(f1)
 dist = json.load(f2)
 
 predecessor = {}
+
+start = timeit.default_timer()
 
 def ucs(startnode,endnode):
     visited = set()
@@ -59,7 +62,9 @@ def printshortestpath(startnode,endnode):
         energyCost += energycost[temp1]
     print(endnode+" -> T")
     print("\nShortest Distance: %.2f" % round(totalDist, 2))
-    print("\nTotal Energy Cost: "+str(energyCost))
+    print("Total Energy Cost: "+str(energyCost))
 
-# ucs('1','50')
+ucs('1','50')
+stop = timeit.default_timer()
+print('Time: ', stop - start)
 

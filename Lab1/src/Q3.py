@@ -1,5 +1,6 @@
 import json
 import math
+import timeit
 from queue import PriorityQueue
 
 f = open('Lab1\G.json',)
@@ -12,13 +13,17 @@ dist = json.load(f2)
 coord = json.load(f3)
 predecessor = {}
 
+# start = timeit.default_timer()
+
 def linear_heuristic(currentNode, endNode):
     starting_x = coord[currentNode][0]
     starting_y = coord[currentNode][1]
     ending_x = coord[endNode][0]
     ending_y = coord[endNode][1]
     euclidean_distance = math.sqrt((starting_x - ending_x)**2 + (starting_y - ending_y)**2)
-    return euclidean_distance
+    return euclidean_distance*0.5
+
+start = timeit.default_timer()
 
 def updatedAStar (startnode,endnode):
     visited = set()
@@ -48,7 +53,7 @@ def updatedAStar (startnode,endnode):
                     fdist = traveldist + distNext + heurDist
                     totaltravel = traveldist + distNext
                     # predecessor[neighbours] = current
-                    q.put((fdist, (current,neighbours), totalenergy, totaltravel))   
+                    q.put((fdist, (current,neighbours), totalenergy, totaltravel))  
 
 def printshortestpath(startnode,endnode):
     shortestpath = []
@@ -70,6 +75,8 @@ def printshortestpath(startnode,endnode):
         energyCost += energycost[temp1]
     print(endnode+" -> T")
     print("\nShortest Distance: %.2f" % round(totalDist, 2))
-    print("\nTotal Energy Cost: "+str(energyCost))
+    print("Total Energy Cost: "+str(energyCost))
 
-# updatedAStar('1','50')
+updatedAStar('1','50')
+stop = timeit.default_timer()
+print('Time: ', stop - start)

@@ -53,6 +53,6 @@ def printshortestpath(endnode):
         energyCost += energycost[temp1]
     print(endnode+" -> T")
     print("\nShortest Distance: %.2f" % round(totaldist, 2))
-    print("\nTotal Energy Cost: "+str(energyCost))
+    print("Total Energy Cost: "+str(energyCost))
 
 # bfs('1','50')
