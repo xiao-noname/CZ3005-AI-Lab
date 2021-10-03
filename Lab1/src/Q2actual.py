@@ -11,52 +11,52 @@ dist = json.load(f2)
 
 predecessor = {}
 
-start_ucs = timeit.default_timer()
 
-def ucs(startnode,endnode):
+def ucs(startnode, endnode):
+    start_ucs = timeit.default_timer()
     visited = set()
     q = PriorityQueue()
     predecessor[startnode] = 0
-    #visited.add(startnode)
-    #q.put((0,startnode,0))#predecessor,accumulatedEnergy
+    # visited.add(startnode)
+    # q.put((0,startnode,0))#predecessor,accumulatedEnergy
     for neighbour in graph[startnode]:
         temp1 = str(neighbour)+','+str(startnode)
         totalenergy = energycost[temp1]
         totaldist = dist[temp1]
-        q.put((totaldist,(startnode,neighbour),totalenergy))
+        q.put((totaldist, (startnode, neighbour), totalenergy))
     while q:
-        traveldist,(predecessornode,current),energy = q.get()
+        traveldist, (predecessornode, current), energy = q.get()
         if current not in visited:
             visited.add(current)
             predecessor[current] = predecessornode
             if current == endnode:
                 stop_ucs = timeit.default_timer()
-                printshortestpath(startnode,endnode)
+                printshortestpath(startnode, endnode)
                 print('Time: ', stop_ucs - start_ucs)
                 return
             for neighbours in graph[current]:
                 temp = str(neighbours)+','+str(current)
                 totalenergy = energy + energycost[temp]
-                if neighbours not in visited and totalenergy<=287932:
+                if neighbours not in visited and totalenergy <= 287932:
                     totaldist = dist[temp]+traveldist
                     predecessor[neighbours] = current
-                    q.put((totaldist,(current,neighbours),totalenergy))
-                    
+                    q.put((totaldist, (current, neighbours), totalenergy))
 
-def printshortestpath(startnode,endnode):
+
+def printshortestpath(startnode, endnode):
     shortestpath = []
     shortestpath.append(endnode)
     movement = endnode
     while (predecessor[movement] != startnode):
         shortestpath.insert(0, predecessor[movement])
         movement = predecessor[movement]
-    shortestpath.insert(0,startnode)
+    shortestpath.insert(0, startnode)
 
     totalDist = 0
-    energyCost = 0;
-    print("Shortest Path: \nS -> ", end = '')
+    energyCost = 0
+    print("Shortest Path: \nS -> ", end='')
     for i in range(len(shortestpath)-1):
-        print(shortestpath[i]+" -> ", end = '')
+        print(shortestpath[i]+" -> ", end='')
         a = shortestpath[i]
         b = shortestpath[i+1]
         temp1 = str(b)+','+str(a)
@@ -67,5 +67,3 @@ def printshortestpath(startnode,endnode):
     print("Total Energy Cost: "+str(energyCost))
 
 # ucs('1','50')
-
-
