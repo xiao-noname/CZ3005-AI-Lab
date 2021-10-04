@@ -13,9 +13,6 @@ dist = json.load(f2)
 coord = json.load(f3)
 predecessor = {}
 
-# start = timeit.default_timer()
-
-
 def linear_heuristic(currentNode, endNode):
     starting_x = coord[currentNode][0]
     starting_y = coord[currentNode][1]
@@ -25,7 +22,7 @@ def linear_heuristic(currentNode, endNode):
     euclidean_distance = math.sqrt((starting_x - ending_x)**2 + (starting_y - ending_y)**2)
     return euclidean_distance
 
-def updatedAStar (startnode,endnode):
+def updatedAStar (startnode,endnode,weight):
     start_astar = timeit.default_timer()
     visited = set()
     q = PriorityQueue()
@@ -52,11 +49,13 @@ def updatedAStar (startnode,endnode):
                 totalenergy = energy + energycost[temp]
                 if neighbours not in visited and totalenergy <= 287932:
                     distNext = dist[temp]
-                    heurDist = linear_heuristic(neighbours, endnode)
-                    fdist = traveldist + distNext + heurDist
-                    totaltravel = traveldist + distNext
-                    # predecessor[neighbours] = current
-                    q.put((fdist, (current, neighbours), totalenergy, totaltravel))
+                    heurDist = linear_heuristic(neighbours, endnode)*weight
+                    gdist = traveldist + distNext
+                    if gdist < heurDist:
+                        fdist = gdist + heurDist
+                    else:
+                        fdist = (gdist+(2*weight-1)*heurDist)/weight
+                    q.put((fdist, (current, neighbours), totalenergy, gdist))
 
 
 def printshortestpath(startnode, endnode):
@@ -81,4 +80,4 @@ def printshortestpath(startnode, endnode):
     print("\nShortest Distance: %.2f" % round(totalDist, 2))
     print("Total Energy Cost: "+str(energyCost))
 
-# updatedAStar('1','50')
+# updatedAStar('1','50',1.13)

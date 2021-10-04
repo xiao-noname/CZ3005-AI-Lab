@@ -11,7 +11,6 @@ dist = json.load(f2)
 
 predecessor = {}
 
-
 def ucs_noenergy(startnode, endnode):
     start_ucs = timeit.default_timer()
     visited = set()
@@ -64,4 +63,4 @@ def printshortestpath(startnode, endnode):
     print("\nShortest Distance: %.2f" % round(totalDist, 2))
     print("Total Energy Cost: "+str(energyCost))
 
-# ucs('1','50')
+# ucs_noenergy('1','50')
