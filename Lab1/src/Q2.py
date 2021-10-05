@@ -24,7 +24,6 @@ def ucs(startnode,endnode):
     while q:
         traveldist,(predecessornode,current),energy = q.get()
         if current not in visited:
-            visited.add(current)
             predecessor[current] = predecessornode
             if current == endnode:
                 stop_ucs = timeit.default_timer()
@@ -35,6 +34,7 @@ def ucs(startnode,endnode):
                 temp = str(neighbours)+','+str(current)
                 totalenergy = energy + energycost[temp]
                 if neighbours not in visited and totalenergy<=287932:
+                    visited.add(current)
                     totaldist = dist[temp]+traveldist
                     predecessor[neighbours] = current
                     q.put((totaldist,(current,neighbours),totalenergy))

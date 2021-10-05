@@ -37,7 +37,6 @@ def updatedAStar (startnode,endnode,weight):
     while q:
         functionDist, (predecessornode, current), energy, traveldist = q.get()
         if current not in visited:
-            visited.add(current)
             predecessor[current] = predecessornode
             if current == endnode:
                 stop_astar = timeit.default_timer()
@@ -48,6 +47,7 @@ def updatedAStar (startnode,endnode,weight):
                 temp = str(neighbours)+','+str(current)
                 totalenergy = energy + energycost[temp]
                 if neighbours not in visited and totalenergy <= 287932:
+                    visited.add(current)
                     distNext = dist[temp]
                     heurDist = linear_heuristic(neighbours, endnode)*weight
                     gdist = traveldist + distNext
