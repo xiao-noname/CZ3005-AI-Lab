@@ -49,7 +49,7 @@ def updatedAStar (startnode,endnode,weight):
                 if neighbours not in visited and totalenergy <= 287932:
                     visited.add(current)
                     distNext = dist[temp]
-                    heurDist = linear_heuristic(neighbours, endnode)*weight
+                    heurDist = linear_heuristic(neighbours, endnode)
                     gdist = traveldist + distNext
                     if gdist < heurDist:
                         fdist = gdist + heurDist
