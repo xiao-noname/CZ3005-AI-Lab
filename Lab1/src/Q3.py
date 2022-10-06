@@ -23,22 +23,23 @@ def linear_heuristic(currentNode, endNode):
     return euclidean_distance
 
 def updatedAStar (startnode,endnode,weight):
+    # start timer for how long it take for A* program
     start_astar = timeit.default_timer()
-    visited = set()
+    visited = set() # unordered unchangable unindexed and cannot have duplicate 
     q = PriorityQueue()
     predecessor[startnode] = 0
-    for neighbour in graph[startnode]:
+    for neighbour in graph[startnode]: # starting from startnode
         temp1 = str(neighbour)+','+str(startnode)
         totalenergy = energycost[temp1]
         distNext = dist[temp1]
         heurDist = linear_heuristic(neighbour, endnode)
         functionDist = distNext + heurDist
         q.put((functionDist, (startnode, neighbour), totalenergy, distNext))
-    while q:
+    while q: # while the priority Queue is not exhaustive
         functionDist, (predecessornode, current), energy, traveldist = q.get()
-        if current not in visited:
+        if current not in visited:  #if the new node have not been visit before
             predecessor[current] = predecessornode
-            if current == endnode:
+            if current == endnode: # find the shortest path
                 stop_astar = timeit.default_timer()
                 printshortestpath(startnode, endnode)
                 print('Time: ', stop_astar - start_astar)
