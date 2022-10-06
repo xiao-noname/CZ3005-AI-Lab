@@ -18,7 +18,7 @@ def linear_heuristic(currentNode, endNode):
     starting_y = coord[currentNode][1]
     ending_x = coord[endNode][0]
     ending_y = coord[endNode][1]
-
+    #calculate the euclidean distance between the two coordinate 
     euclidean_distance = math.sqrt((starting_x - ending_x)**2 + (starting_y - ending_y)**2)
     return euclidean_distance
 
