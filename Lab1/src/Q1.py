@@ -2,9 +2,9 @@ import json
 import timeit
 from queue import PriorityQueue
 
-f = open('Lab1\G.json',)
-f1 = open('Lab1\Cost.json')
-f2 = open('Lab1\Dist.json')
+f = open('/Users/xiaolingyi/Documents/GitHub/CZ3005-AI-Lab/Lab1/G.json',)
+f1 = open('/Users/xiaolingyi/Documents/GitHub/CZ3005-AI-Lab/Lab1/Cost.json')
+f2 = open('/Users/xiaolingyi/Documents/GitHub/CZ3005-AI-Lab/Lab1/Dist.json')
 graph = json.load(f)
 energycost = json.load(f1)
 dist = json.load(f2)
