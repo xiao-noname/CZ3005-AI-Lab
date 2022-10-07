@@ -2,52 +2,53 @@ import json
 import timeit
 from queue import PriorityQueue
 
-f = open('/Users/xiaolingyi/Documents/GitHub/CZ3005-AI-Lab/Lab1/G.json',)
-f1 = open('/Users/xiaolingyi/Documents/GitHub/CZ3005-AI-Lab/Lab1/Cost.json')
-f2 = open('/Users/xiaolingyi/Documents/GitHub/CZ3005-AI-Lab/Lab1/Dist.json')
-graph = json.load(f)
-energycost = json.load(f1)
-dist = json.load(f2)
+G = open('.\data\G.json')
+Cost = open('.\data\Cost.json')
+Dist = open('.\data\Dist.json')
 
-predecessor = {}
+graph = json.load(G)
+cost = json.load(Cost)
+dist = json.load(Dist)
 
-def ucs_noenergy(startnode, endnode):
-    start_ucs = timeit.default_timer()
-    visited = set()
-    q = PriorityQueue()
-    predecessor[startnode] = 0
-    for neighbour in graph[startnode]:
-        temp1 = str(neighbour)+','+str(startnode)
-        totalenergy = energycost[temp1]
-        totaldist = dist[temp1]
-        q.put((totaldist, (startnode, neighbour), totalenergy))
-    while q:
-        traveldist, (predecessornode, current), energy = q.get()
-        if current not in visited:
-            visited.add(current)
-            predecessor[current] = predecessornode
-            if current == endnode:
-                stop_ucs = timeit.default_timer()
-                printshortestpath(startnode, endnode)
-                print('Time: ', stop_ucs - start_ucs)
-                return
-            for neighbours in graph[current]:
-                temp = str(neighbours)+','+str(current)
-                totalenergy = energy + energycost[temp]
-                if neighbours not in visited:
-                    totaldist = dist[temp]+traveldist
-                    predecessor[neighbours] = current
-                    q.put((totaldist, (current, neighbours), totalenergy))
+path = [0] * (len(graph) + 1)
 
+def Task1(startNode, endNode):
+    visited = [False] * (len(graph) + 1)
 
-def printshortestpath(startnode, endnode):
+    queue = PriorityQueue()
+    path[int(startNode)] = 0
+    for neighbour in graph[startNode]:
+        startNeighbour = str(neighbour) + ',' + str(startNode)
+        totalenergy = cost[startNeighbour]
+        totaldist = dist[startNeighbour]
+        queue.put((totaldist, (startNode, neighbour), totalenergy))
+    while queue:
+        currentDistance, (lastNode, currentNode), currentEnergy = queue.get()
+        currentNodeIndex = int(currentNode)
+        if visited[currentNodeIndex]:
+            continue
+        visited[currentNodeIndex] = True
+        path[currentNodeIndex] = lastNode
+        if currentNode == endNode:
+            printShortestPath(startNode,endNode)
+            return
+        for neighbour in graph[currentNode]:
+            neighbourIndex = int(neighbour)
+            currentNeighbour = str(neighbour)+','+str(currentNode)
+            newEnergy = currentEnergy + cost[currentNeighbour]
+            if not visited[neighbourIndex]:
+                newDist = currentDistance + dist[currentNeighbour]
+                path[neighbourIndex] = currentNode
+                queue.put((newDist, (currentNode,neighbour), newEnergy))
+
+def printShortestPath(startNode, endNode):
     shortestpath = []
-    shortestpath.append(endnode)
-    movement = endnode
-    while (predecessor[movement] != startnode):
-        shortestpath.insert(0, predecessor[movement])
-        movement = predecessor[movement]
-    shortestpath.insert(0, startnode)
+    shortestpath.append(endNode)
+    movement = endNode
+    while (path[int(movement)] != startNode):
+        shortestpath.insert(0, path[int(movement)])
+        movement = path[int(movement)]
+    shortestpath.insert(0, startNode)
 
     totalDist = 0
     energyCost = 0
@@ -58,9 +59,15 @@ def printshortestpath(startnode, endnode):
         b = shortestpath[i+1]
         temp1 = str(b)+','+str(a)
         totalDist += dist[temp1]
-        energyCost += energycost[temp1]
-    print(endnode+" -> T")
+        energyCost += cost[temp1]
+    print(endNode+" -> T")
     print("\nShortest Distance: %.2f" % round(totalDist, 2))
     print("Total Energy Cost: "+str(energyCost))
-
-# ucs_noenergy('1','50')
+    return
+'''
+print("|| Task 1: Breadth First Search ||")
+start_time = timeit.default_timer()
+Task1('1', '50')
+end_time = timeit.default_timer()
+print('Time: ', end_time - start_time)
+'''
