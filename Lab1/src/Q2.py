@@ -1,68 +1,57 @@
 import json
 import timeit
 from queue import PriorityQueue
+import os
 
-f = open('/Users/xiaolingyi/Documents/GitHub/CZ3005-AI-Lab/Lab1/G.json',)
-f1 = open('/Users/xiaolingyi/Documents/GitHub/CZ3005-AI-Lab/Lab1/Cost.json')
-f2 = open('/Users/xiaolingyi/Documents/GitHub/CZ3005-AI-Lab/Lab1/Dist.json')
-graph = json.load(f)
-energycost = json.load(f1)
-dist = json.load(f2)
+f1 = open(os.path.join(os.path.dirname(__file__), 'data', 'Coord.json'))
+f2 = open(os.path.join(os.path.dirname(__file__), 'data', 'Cost.json'))
+f3 = open(os.path.join(os.path.dirname(__file__), 'data', 'Dist.json'))
+f4 = open(os.path.join(os.path.dirname(__file__), 'data', 'G.json'))
+coordData = json.load(f1)
+energyData = json.load(f2)
+distData = json.load(f3)
+graphData = json.load(f4)
+parent = {}
 
-predecessor = {}
-
-def ucs(startnode,endnode):
-    start_ucs = timeit.default_timer()
+def ucs(start_node, end_node):
     visited = set()
     q = PriorityQueue()
-    predecessor[startnode] = 0
-    for neighbour in graph[startnode]:
-        temp1 = str(neighbour)+','+str(startnode)
-        totalenergy = energycost[temp1]
-        totaldist = dist[temp1]
-        q.put((totaldist,(startnode,neighbour),totalenergy))
+    parent[start_node] = 0
+    for neighbour in graphData[start_node]:
+        node_set = neighbour +',' + start_node
+        curr_energy = energyData[node_set]
+        curr_dist = distData[node_set]
+        q.put((curr_dist, (start_node, neighbour), curr_energy))
     while q:
-        traveldist,(predecessornode,current),energy = q.get()
+        dist_travel,(parent_node,current),energy = q.get()
         if current not in visited:
-            predecessor[current] = predecessornode
-            if current == endnode:
-                stop_ucs = timeit.default_timer()
-                printshortestpath(startnode,endnode)
-                print('Time: ', stop_ucs - start_ucs)
+            parent[current] = parent_node
+            if current == end_node:
+                printshortestpath(start_node, end_node, dist_travel, energy)
                 return
-            for neighbours in graph[current]:
-                temp = str(neighbours)+','+str(current)
-                totalenergy = energy + energycost[temp]
-                if neighbours not in visited and totalenergy<=287932:
+            for neighbours in graphData[current]:
+                node_pair = neighbours +','+ current
+                curr_energy = energy + energyData[node_pair]
+                if neighbours not in visited and curr_energy<=287932:
                     visited.add(current)
-                    totaldist = dist[temp]+traveldist
-                    predecessor[neighbours] = current
-                    q.put((totaldist,(current,neighbours),totalenergy))
-                    
+                    curr_dist = distData[node_pair] + dist_travel
+                    parent[neighbours] = current
+                    q.put((curr_dist, (current, neighbours), curr_energy))
 
-def printshortestpath(startnode,endnode):
-    shortestpath = []
-    shortestpath.append(endnode)
-    movement = endnode
-    while (predecessor[movement] != startnode):
-        shortestpath.insert(0, predecessor[movement])
-        movement = predecessor[movement]
-    shortestpath.insert(0,startnode)
 
-    totalDist = 0
-    energyCost = 0;
-    print("Shortest Path: \nS -> ", end = '')
-    for i in range(len(shortestpath)-1):
-        print(shortestpath[i]+" -> ", end = '')
-        a = shortestpath[i]
-        b = shortestpath[i+1]
-        temp1 = str(b)+','+str(a)
-        totalDist += dist[temp1]
-        energyCost += energycost[temp1]
-    print(endnode+" -> T")
-    print("\nShortest Distance: %.2f" % round(totalDist, 2))
-    print("Total Energy Cost: "+str(energyCost))
+def printshortestpath(start_node, end_node, currEnergy, currDist):
+    shortest_path = [end_node]
+    curr_node = end_node
+    while (parent[curr_node] != start_node):
+        shortest_path.insert(0, parent[curr_node])
+        curr_node = parent[curr_node]
+    shortest_path.insert(0,start_node)
+    print("Shortest Path: \n Start: ", end = '')
+    for i in range(len(shortest_path)-1):
+        print(shortest_path[i]+" -> ", end = '')
+    print(end_node + " End" )
+    print("\nShortest Distance: %.2f" %currDist)
+    print("Total Energy Cost: "+ str(currEnergy))
 
-# ucs('1','50')
 
 
