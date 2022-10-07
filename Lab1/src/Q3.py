@@ -32,7 +32,7 @@ def updatedAStar (startnode,endnode,weight):
         temp1 = str(neighbour)+','+str(startnode)
         totalenergy = energycost[temp1] # geting energy cost between neighbor and startnode
         distNext = dist[temp1] #the distance traveled so far
-        heurDist = linear_heuristic(neighbour, endnode)#what is the eulidean distance of the node to endnode
+        heurDist = linear_heuristic(neighbour, endnode)# what is the eulidean distance of the node to endnode
         functionDist = distNext + heurDist
         q.put((functionDist, (startnode, neighbour), totalenergy, distNext)) # tuple comparison, functionDist is compaired first
     while q: # while the priority Queue is not exhaustive
