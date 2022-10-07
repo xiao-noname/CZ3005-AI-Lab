@@ -2,7 +2,7 @@ import Q1
 import Q2
 import Q3
 
-print("|| Task 1: Breadth First Search ||")
+print("|| Task 1: Uniform Cost Search ||")
 Q1.Task1('1', '50')
 
 print("\n|| Task 2: Uniform Cost Search ||\n")
