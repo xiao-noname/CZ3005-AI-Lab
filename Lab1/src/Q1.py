@@ -1,10 +1,11 @@
 import json
 import timeit
+import os
 from queue import PriorityQueue
 
-G = open('./data/G.json')
-Cost = open('./data/Cost.json')
-Dist = open('./data/Dist.json')
+G = open(os.path.join(os.path.dirname(__file__), 'data', 'G.json'))
+Cost = open(os.path.join(os.path.dirname(__file__), 'data', 'Cost.json'))
+Dist = open(os.path.join(os.path.dirname(__file__), 'data', 'Dist.json'))
 
 graph = json.load(G)
 cost = json.load(Cost)
@@ -70,7 +71,7 @@ def printShortestPath(startNode, endNode):
     print("\nShortest Distance: %.2f" % round(totalDist, 2))
     print("Total Energy Cost: "+str(energyCost))
     return
-'''
-print("|| Task 1: Breadth First Search ||")
-Task1('1','50')
-'''
+
+'''print("|| Task 1: Breadth First Search ||")
+Task1('1','50')'''
+
