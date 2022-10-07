@@ -2,11 +2,11 @@ import json
 import math
 import timeit
 from queue import PriorityQueue
-
-f = open('/Users/xiaolingyi/Documents/GitHub/CZ3005-AI-Lab/Lab1/G.json',)
-f1 = open('/Users/xiaolingyi/Documents/GitHub/CZ3005-AI-Lab/Lab1/Cost.json')
-f2 = open('/Users/xiaolingyi/Documents/GitHub/CZ3005-AI-Lab/Lab1/Dist.json')
-f3 = open('/Users/xiaolingyi/Documents/GitHub/CZ3005-AI-Lab/Lab1/Coord.json')
+import os
+f = open(os.path.join(os.path.dirname(__file__), 'data', 'G.json'),)
+f1 = open(os.path.join(os.path.dirname(__file__), 'data', 'Cost.json'))
+f2 = open(os.path.join(os.path.dirname(__file__), 'data', 'Dist.json'))
+f3 = open(os.path.join(os.path.dirname(__file__), 'data', 'Coord.json'))
 graph = json.load(f) # an adjacency list where the neighbor list of node ‘v’ 
 energycost = json.load(f1)# energy cost between a pair of node (v, w)
 dist = json.load(f2)# distance between a pair of node (v, w) 
