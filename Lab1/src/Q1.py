@@ -59,7 +59,7 @@ def printShortestPath(startNode, endNode):
 
     totalDist = 0
     energyCost = 0
-    print("Shortest Path: \nS -> ", end = '')
+    print("Shortest Path: \n", end = '')
     for i in range(len(shortestPath)-1):
         print(shortestPath[i]+" -> ", end = '')
         a = shortestPath[i]
@@ -67,11 +67,11 @@ def printShortestPath(startNode, endNode):
         temp1 = str(b) + ',' + str(a)
         totalDist += dist[temp1]
         energyCost += cost[temp1]
-    print(endNode+" -> T")
+    print(endNode)
     print("\nShortest Distance: %.2f" % round(totalDist, 2))
     print("Total Energy Cost: "+str(energyCost))
     return
 
-'''print("|| Task 1: Breadth First Search ||")
-Task1('1','50')'''
+print("|| Task 1: Breadth First Search ||")
+Task1('1','50')
 
