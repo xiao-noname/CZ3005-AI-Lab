@@ -71,7 +71,7 @@ def printShortestPath(startNode, endNode):
     print("\nShortest Distance: %.2f" % round(totalDist, 2))
     print("Total Energy Cost: "+str(energyCost))
     return
-
+'''
 print("|| Task 1: Breadth First Search ||")
 Task1('1','50')
-
+'''
